@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zc.dao.MainMapper">
+	<!-- 通用添加 -->
+	<insert id="insert" parameterType="java.util.Map"
+		useGeneratedKeys="true" keyProperty="id" keyColumn="id">
+		insert into ${tableName} (${keys})
+		values (
+		<foreach collection="values" item="item" index="index"
+			separator=",">
+			#{item}
+		</foreach>
+		)
+		<selectKey keyProperty="id" order="AFTER"
+			resultType="java.lang.Integer">
+			select LAST_INSERT_ID() as id
+		</selectKey>
+	</insert>
+	<!-- 通用修改 -->
+	<update id="update" parameterType="java.util.Map">
+		update ${tableName} set
+		<foreach collection="maps.keys" item="key" separator=",">
+			${key} =
+			#{maps[${key}]}
+		</foreach>
+		where id=${id}
+	</update>
+
+	<!-- 通用删除,可条件删除 -->
+	<delete id="delete" parameterType="java.util.Map">
+		delete from ${tableName} where 1=1
+		<if test="ids !=null ">
+			and id in (
+			<foreach collection="ids" item="item" index="index"
+				separator=",">
+				#{item}
+			</foreach>
+			)
+		</if>
+		<if test="maps !=null ">
+			<foreach collection="maps.keys" item="key" open="" close=""
+				separator=",">
+				and ${key} = #{maps[${key}]}
+			</foreach>
+		</if>
+	</delete>
+	<!-- 查询列表 -->
+	<select id="selectSingleTableList" parameterType="java.util.Map"
+		resultType="java.util.Map">
+		select * from ${tableName}
+		<if test="maps !=null ">
+			where
+			<foreach collection="maps.keys" item="key" open="" close=""
+				separator=",">
+				${key} = #{maps[${key}]}
+			</foreach>
+		</if>
+	</select>
+	<!-- 查询详情 -->
+	<select id="selectSingleInfo" parameterType="java.util.Map"
+		resultType="java.util.Map">
+		select * from ${tableName} where id=${id}
+	</select>
+	<!-- 修改时删除 -->
+	<delete id="deletelAll" parameterType="java.util.Map">
+		delete from ${tableName} where
+		<foreach collection="info.keys" item="key" open="" close=""
+			separator=",">
+			${key} = #{info[${key}]}
+		</foreach>
+	</delete>
+
+</mapper>

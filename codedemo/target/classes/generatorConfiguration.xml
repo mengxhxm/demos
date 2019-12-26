@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE generatorConfiguration PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN" 
+"http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd">
+<generatorConfiguration>
+
+	<!--修改config.properties中的模块名称、表名即可-->
+    <!-- <properties resource="jdbc.properties"/> -->
+	<classPathEntry location="D:\eclipse-workspace\qgc\src\main\webapp\WEB-INF\lib\mysql-connector-java-5.1.35.jar"/>
+ 	
+  <context id="consult_Oracle" >
+  	<!-- 为了防止生成的代码中有很多注释，比较难看，加入下面的配置控制 -->
+    <commentGenerator>
+		<!-- 是否去除自动生成的注释 true：是 ： false:否 -->
+		<property name="suppressAllComments" value="true" />
+		<!-- 是否生成注释代时间戳-->
+		<property name="suppressDate" value="false" />
+		<property name="addRemarkComments" value="true" />
+    </commentGenerator>
+    <!-- 注释控制完毕 -->
+    
+    
+    <!-- 数据库链接URL、用户名、密码 -->  
+    <jdbcConnection connectionURL="jdbc:mysql://192.168.8.218:3306/qgc" 
+			    	driverClass="com.mysql.jdbc.Driver"  
+			    	userId="root"
+			    	password="123456" />
+			    	
+    <!-- 类型转换 -->
+    <javaTypeResolver>
+    <!-- 是否使用bigDecimal， false可自动转化以下类型（Long, Integer, Short, etc.） -->
+    <!-- 10到18，则Java类型解析器将替换java.lang.Long,
+    	长度为5到9，则Java类型解析器将替换java.lang.Integer
+    	长度小于5，则Java类型解析器将替换java.lang.Short
+    	当属性为true时，如果数据库列为十进制或数字类型，Java类型解析器将始终使用java.math.BigDecimal -->
+	    <property name="forceBigDecimals" value="false"/>
+    </javaTypeResolver>
+    
+	<!-- 生成实体类的包名和位置 --> 
+    <javaModelGenerator targetPackage="test"
+			targetProject="codedemo\src\test\java" />
+	<!-- 生成的映射文件报名和位置 -->
+ 	<sqlMapGenerator targetPackage="test" 
+ 			targetProject="codedemo\src\test\java" /> 
+			
+	<!-- 生成DAO的包名和位置  -->
+ 	<javaClientGenerator targetPackage="test" type="XMLMAPPER" 
+ 			targetProject="codedemo\src\test\java"/>
+			
+			
+	<!-- 要生成的那些表(更改tableName 和domainObjectName 就可以了) -->  
+	 <!-- tableName:要生成的表名
+        domainObjectName:生成后的实例名
+        enableCountByExample:Count语句中加入where条件查询，默认为true开启
+        enableUpdateByExample:Update语句中加入where条件查询，默认为true开启
+        enableDeleteByExample:Delete语句中加入where条件查询，默认为true开启
+        enableSelectByExample:Select多条语句中加入where条件查询，默认为true开启
+        selectByExampleQueryId:Select单个对象语句中加入where条件查询，默认为true开启
+        -->
+    <table schema="codedemo" tableName="p_approvalApplication" domainObjectName="ApprovalApplication"
+			enableCountByExample="false" enableUpdateByExample="false"
+			enableDeleteByExample="false" enableSelectByExample="false"
+			selectByExampleQueryId="false">
+		 <!-- 忽略列，不生成bean 字段 -->
+	     <!-- <ignoreColumn column="total" /> -->
+	     <!-- 指定列的java数据类型 -->  
+	     <!-- <columnOverride column="TOTAL" jdbcType="NUMBER(7,2)" /> -->
+	     <!-- 指定列的列，转换为自定义的实体类属性&自定义java类型-->
+	     <!-- <columnOverride column="PID" property="ppiidd" javaType="double"/> -->
+	     <property name="useActualColumnNames" value="true" />
+	</table>
+    <table schema="codedemo" tableName="p_payStatement" domainObjectName="PayStatement"
+			enableCountByExample="false" enableUpdateByExample="false"
+			enableDeleteByExample="false" enableSelectByExample="false"
+			selectByExampleQueryId="false">
+	     <property name="useActualColumnNames" value="true" />
+	</table>
+    
+  </context>
+</generatorConfiguration>
